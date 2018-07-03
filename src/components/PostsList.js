@@ -1,13 +1,17 @@
 import React from 'react'
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import * as FontAwesome from 'react-icons/lib/fa'
 const moment = require('moment');
-
+const { limit } = require('stringz');
 
 const PostsList = function (props) {
+
+  const orderedPosts = _.sortBy(props.posts, ['title']);
+
   return (
     <div id="main" className="eight columns">
-      {props.posts.map((item) => (
+      {orderedPosts.map((item) => (
               <article className="entry" key={item.id}>
 
                 <header className="entry-header">
@@ -30,8 +34,8 @@ const PostsList = function (props) {
 
                 </header>
 
-                <div class="entry-content">
-                  <p>Duis ex ad cupidatat tempor Excepteur cillum</p>
+                <div className="entry-content">
+                  <p>{item.body}</p>
                 </div>
 
                 <div style={{ display: 'flex', justifyContent: 'center', alignContent:'center' }}>
@@ -46,6 +50,7 @@ const PostsList = function (props) {
       }
     </div>
   );
+
 };
 
 PostsList.propTypes = {

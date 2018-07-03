@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Sidebar = function (props) {
   return (
@@ -9,7 +10,8 @@ const Sidebar = function (props) {
         <h3>Categories.</h3>
         <ul>
           {props.categories.map((item) => (
-            <li key={item.path}><a title="">{item.name}</a></li>
+            <li key={item.path}><Link
+              to={`/${item.path}`}>{item.name}</Link></li>
             ))
           }
         </ul>

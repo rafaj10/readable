@@ -1,21 +1,33 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import * as FontAwesome from 'react-icons/lib/fa'
-import * as PostActions from '../../actions/post.action';
-import '../../App.css';
-import PostsList from "../../components/PostsList";
-import Sidebar from "../../components/Sidebar";
+import * as PostActions from '../actions/post.action';
+import '../App.css';
+import PostsList from "../components/PostsList";
+import Sidebar from "../components/Sidebar";
 
 class HomeContainer extends Component {
 
-  componentDidMount() {
-    this.props.getPosts();
-    this.props.getCategories();
+  componentDidUpdate(prevProps) {
+    if (this.props.path !== prevProps.path) {
+      this.query();
+    }
   }
 
-  sayHellow(){
-    this.props.sayHellow();
+  componentDidMount() {
+    this.query();
+  }
+
+  query(){
+    if(this.props.path){
+      console.log("Has category = " + this.props.path);
+      this.props.getPostsByCategory(this.props.path);
+    }else{
+      this.props.getPosts();
+    }
+    this.props.getCategories();
   }
 
   render() {
@@ -29,11 +41,12 @@ class HomeContainer extends Component {
               <option value="recent">Most Recent</option>
               <option value="rated">Top Rated</option>
             </select></div>
-            <div style={{ display: 'flex', width:'50%' }}><FontAwesome.FaPlus size={22} /> add new post</div>
+            <div style={{ display: 'flex', width:'50%' }}><Link
+              to='/post/new'><FontAwesome.FaPlus size={22} /> add new post</Link></div>
           </div>
 
 
-          <PostsList posts={this.props.posts}/>
+          <PostsList posts={this.props.posts} orderBy={'upVoting'}/>
 
           <Sidebar categories={this.props.categories}/>
 
@@ -44,10 +57,11 @@ class HomeContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
     categories: state.post.categories,
-    posts: state.post.posts
+    posts: state.post.posts,
+    path: ownProps.match.params.category
   };
 }
 

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import '../App.css';
-import HomeContainer from './Home/HomeContainer';
+import HomeContainer from './HomeContainer';
+import CreatePostContainer from './CreatePostContainer';
 
 class App extends Component {
   render() {
@@ -9,8 +10,13 @@ class App extends Component {
       <Switch>
         <Route
           exact
-          path="/"
-          render={() => (<HomeContainer/>)}
+          path="/:category?"
+          component={HomeContainer}
+        />
+        <Route
+          exact
+          path="/post/new"
+          render={() => (<CreatePostContainer/>)}
         />
       </Switch>
     );
