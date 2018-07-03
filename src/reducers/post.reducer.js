@@ -1,18 +1,23 @@
 import { postConstants } from '../constants';
 
 const INITIAL_STATE = {
-  hellow: ''
+  categories: [],
+  posts: []
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case postConstants.SAY_HELLOW:
+    case postConstants.GET_CATEGORIES:
       return {
         ...state,
-        hellow: action.payload
+        categories: action.payload
+      };
+    case postConstants.GET_POSTS:
+      return {
+        ...state,
+        posts: action.payload
       };
     default:
       return state;
-
   }
 };

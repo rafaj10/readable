@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 
 const Sidebar = function (props) {
   return (
@@ -7,12 +8,19 @@ const Sidebar = function (props) {
       <div className="widget widget_categories group">
         <h3>Categories.</h3>
         <ul>
-          <li><a title="">React</a></li>
+          {props.categories.map((item) => (
+            <li key={item.path}><a title="">{item.name}</a></li>
+            ))
+          }
         </ul>
       </div>
 
     </div>
   );
 };
+
+Sidebar.propTypes = {
+  categories: PropTypes.array.isRequired
+}
 
 export default Sidebar
