@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import * as PostActions from '../../actions/post.action';
-import logo from '../../logo.svg';
 import '../../App.css';
+import PostsList from "../../components/PostsList";
+import Sidebar from "../../components/Sidebar";
 
 class HomeContainer extends Component {
 
@@ -13,15 +14,17 @@ class HomeContainer extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="App-title">Welcome <input type="button" name="submit" value="SAY HELLOW" onClick={() => this.sayHellow()} /></h1>
-        </header>
-        <p className="App-intro">
-          Redux are saying {this.props.hellow}
-        </p>
-     </div>
+      <div id="content-wrap">
+
+        <div className="row">
+
+          <PostsList posts={[0,1,2,3,4,5]}/>
+
+          <Sidebar/>
+
+        </div>
+
+      </div>
     );
   }
 }
