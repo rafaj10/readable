@@ -4,11 +4,12 @@ import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import * as FontAwesome from 'react-icons/lib/fa'
 import * as PostActions from '../actions/post.action';
+import * as CommentActions from '../actions/comment.action';
 import '../App.css';
-import PostsList from "../components/PostsList";
 import Sidebar from "../components/Sidebar";
 import CommentsList from "../components/CommentsList";
 import CommentsForm from "../components/CommentsForm";
+const moment = require('moment');
 
 class PostDetailContainer extends Component {
 
@@ -26,6 +27,7 @@ class PostDetailContainer extends Component {
     if(this.props.postId){
       console.log("Has PostIt = " + this.props.postId);
       this.props.getPost(this.props.postId);
+      this.props.getComments(this.props.postId);
     }else{
       this.notFound();
     }
@@ -60,14 +62,13 @@ class PostDetailContainer extends Component {
 
                   <div className="entry-meta">
                     <ul>
-                      <li>July 11, 2014</li>
-                      <span className="meta-sep">&bull;</span>
-                      <li>
-                        <a  title="" rel="category tag">Wordpress</a>,
-                        <a  title="" rel="category tag">Ghost</a>
-                      </li>
-                      <span className="meta-sep">&bull;</span>
+                      <li>{moment(this.props.selectedPost.timestamp).fromNow()}</li>
+                      <span className="meta-sep">&nbsp;&nbsp; &bull; &nbsp;&nbsp;</span>
                       <li>{this.props.selectedPost.author}</li>
+                      <span className="meta-sep">&nbsp;&nbsp; &bull; &nbsp;&nbsp;</span>
+                      <li><FontAwesome.FaComments size={22} /> ({this.props.selectedPost.commentCount})</li>
+                      <span className="meta-sep">&nbsp;&nbsp; &bull; &nbsp;&nbsp;</span>
+                      <li><FontAwesome.FaThumbsUp size={22} /> ({this.props.selectedPost.voteScore})</li>
                     </ul>
                   </div>
 
@@ -83,7 +84,7 @@ class PostDetailContainer extends Component {
 
                 <h3>{this.props.selectedPost.commentCount} Comment(s)</h3>
 
-                <CommentsList comments={[1,2,3]} />
+                <CommentsList comments={this.props.comments} />
 
                 <CommentsForm postComment={this.postComment.bind(this)}/>
 
@@ -108,13 +109,14 @@ function mapStateToProps(state, ownProps) {
   return {
     categories: state.post.categories,
     selectedPost: state.post.selectedPost,
+    comments: state.comment.comments,
     categoryPath: ownProps.match.params.category,
     postId: ownProps.match.params.post_id
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(PostActions, dispatch);
+  return bindActionCreators(Object.assign({}, PostActions, CommentActions), dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetailContainer);

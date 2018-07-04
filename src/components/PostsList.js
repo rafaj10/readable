@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import * as FontAwesome from 'react-icons/lib/fa'
+import * as FontAwesome from 'react-icons/lib/fa';
 const moment = require('moment');
 const { limit } = require('stringz');
 
@@ -25,11 +25,11 @@ const PostsList = function (props) {
                   <div className="entry-meta">
                     <ul>
                       <li>{moment(item.timestamp).fromNow()}</li>
-                      <span className="meta-sep">&bull;</span>
+                      <span className="meta-sep">&nbsp;&nbsp; &bull; &nbsp;&nbsp;</span>
                       <li>{item.author}</li>
-                      <span className="meta-sep">&bull;</span>
+                      <span className="meta-sep">&nbsp;&nbsp; &bull; &nbsp;&nbsp;</span>
                       <li><FontAwesome.FaComments size={22} /> ({item.commentCount})</li>
-                      <span className="meta-sep">&bull;</span>
+                      <span className="meta-sep">&nbsp;&nbsp; &bull; &nbsp;&nbsp;</span>
                       <li><FontAwesome.FaThumbsUp size={22} /> ({item.voteScore})</li>
                     </ul>
                   </div>
