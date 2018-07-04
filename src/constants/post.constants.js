@@ -1,6 +1,7 @@
 export const postConstants = {
   SAY_HELLOW: 'SAY_HELLOW',
   GET_POSTS: 'GET_POSTS',
+  GET_POST: 'GET_POST',
   GET_CATEGORIES: 'GET_CATEGORIES',
   NEW_POST: 'NEW_POST'
 };

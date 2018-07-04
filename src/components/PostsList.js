@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import * as FontAwesome from 'react-icons/lib/fa'
 const moment = require('moment');
 const { limit } = require('stringz');
@@ -17,7 +18,8 @@ const PostsList = function (props) {
                 <header className="entry-header">
 
                   <h2 className="entry-title">
-                    <a href="single.html" title="">{item.title}</a>
+                    <Link
+                      to={`/${item.category}/${item.id}`}>{item.title}</Link>
                   </h2>
 
                   <div className="entry-meta">

@@ -17,6 +17,24 @@ export const getPosts = () => {
   };
 };
 
+export const getPost = (postId) => {
+  return (dispatch) => {
+    PostService.getPost(postId).then(
+      response => {
+        console.log("AQUIIII");
+        console.log(JSON.stringify(response));
+        dispatch({
+          type: postConstants.GET_POST,
+          payload: response.data
+        })
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  };
+};
+
 export const getPostsByCategory = (category) => {
   return (dispatch) => {
     PostService.getPostsByCategory(category).then(

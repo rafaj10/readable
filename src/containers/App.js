@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import '../App.css';
 import HomeContainer from './HomeContainer';
 import CreatePostContainer from './CreatePostContainer';
+import PostDetailContainer from './PostDetailContainer';
 
 class App extends Component {
   render() {
@@ -12,6 +13,11 @@ class App extends Component {
           exact
           path="/:category?"
           component={HomeContainer}
+        />
+        <Route
+          exact
+          path="/:category/:post_id"
+          component={PostDetailContainer}
         />
         <Route
           exact

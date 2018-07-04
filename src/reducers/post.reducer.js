@@ -2,7 +2,8 @@ import { postConstants } from '../constants';
 
 const INITIAL_STATE = {
   categories: [],
-  posts: []
+  posts: [],
+  selectedPost: undefined
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -16,6 +17,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         posts: action.payload
+      };
+    case postConstants.GET_POST:
+      return {
+        ...state,
+        selectedPost: action.payload
       };
     default:
       return state;
