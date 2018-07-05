@@ -12,6 +12,12 @@ const PostsList = function (props) {
 
   return (
     <div id="main" className="eight columns">
+      <div>
+        <select>
+          <option value="recent">Most Recent</option>
+          <option value="rated">Top Rated</option>
+        </select>
+      </div>
       {orderedPosts.map((item) => (
               <article className="entry" key={item.id}>
 

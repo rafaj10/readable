@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
-import * as FontAwesome from 'react-icons/lib/fa'
 import * as PostActions from '../actions/post.action';
 import '../App.css';
+import HeaderLogo from "../components/HeaderLogo";
 import PostsList from "../components/PostsList";
 import Sidebar from "../components/Sidebar";
 
@@ -36,15 +36,7 @@ class HomeContainer extends Component {
 
         <div className="row">
 
-          <div style={{ display: 'flex' }}>
-            <div style={{ display: 'flex', width:'50%', alignContent:'center' }}><select>
-              <option value="recent">Most Recent</option>
-              <option value="rated">Top Rated</option>
-            </select></div>
-            <div style={{ display: 'flex', width:'50%' }}><Link
-              to='/post/new'><FontAwesome.FaPlus size={22} /> add new post</Link></div>
-          </div>
-
+          <HeaderLogo />
 
           <PostsList posts={this.props.posts} orderBy={'upVoting'}/>
 

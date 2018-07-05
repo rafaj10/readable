@@ -3,6 +3,7 @@ import {withRouter} from 'react-router-dom'
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import * as PostActions from '../actions/post.action';
+import HeaderLogo from "../components/HeaderLogo";
 import '../App.css';
 
 class CreatePostContainer extends Component {
@@ -52,6 +53,8 @@ class CreatePostContainer extends Component {
       <div id="content-wrap">
 
         <div className="row">
+
+          <HeaderLogo />
 
           <div className="respond">
 

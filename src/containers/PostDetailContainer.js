@@ -6,6 +6,7 @@ import * as FontAwesome from 'react-icons/lib/fa'
 import * as PostActions from '../actions/post.action';
 import * as CommentActions from '../actions/comment.action';
 import '../App.css';
+import HeaderLogo from "../components/HeaderLogo";
 import Sidebar from "../components/Sidebar";
 import CommentsList from "../components/CommentsList";
 import CommentsForm from "../components/CommentsForm";
@@ -47,6 +48,9 @@ class PostDetailContainer extends Component {
       <div id="content-wrap">
 
         <div className="row">
+
+          <HeaderLogo />
+
           {this.props.selectedPost ? (
 
 

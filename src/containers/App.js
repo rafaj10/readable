@@ -4,6 +4,7 @@ import '../App.css';
 import HomeContainer from './HomeContainer';
 import CreatePostContainer from './CreatePostContainer';
 import PostDetailContainer from './PostDetailContainer';
+import NothingHereContainer from './NothingHereContainer';
 
 class App extends Component {
   render() {
@@ -21,8 +22,13 @@ class App extends Component {
         />
         <Route
           exact
-          path="/post/new"
-          render={() => (<CreatePostContainer/>)}
+          path="/:category/post/new"
+          component={CreatePostContainer}
+        />
+        <Route
+          exact
+          path="*"
+          component={NothingHereContainer}
         />
       </Switch>
     );
