@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import * as FontAwesome from 'react-icons/lib/fa';
 const moment = require('moment');
-const { limit } = require('stringz');
 
 const PostsList = function (props) {
 
@@ -46,11 +45,11 @@ const PostsList = function (props) {
                   <p>{item.body}</p>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'center', alignContent:'center' }}>
-                  <div style={{ width:'200px'}}>Like <FontAwesome.FaThumbsUp size={25} /></div>
-                  <div style={{ width:'200px'}}>Un-Like <FontAwesome.FaThumbsDown size={25} /></div>
-                  <div style={{ width:'200px'}}>Edit <FontAwesome.FaEdit size={25} /></div>
-                  <div style={{ width:'200px'}}>Delete <FontAwesome.FaTrash size={25} /></div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', alignContent:'flex-end' }}>
+                  <div style={{ width:'70px'}}><button onClick={() => props.vote(item.id,true)}><FontAwesome.FaThumbsUp size={25} /></button></div>
+                  <div style={{ width:'70px'}}><button onClick={() => props.vote(item.id,false)}><FontAwesome.FaThumbsDown size={25} /></button></div>
+                  <div style={{ width:'70px'}}><button><FontAwesome.FaEdit size={25} /></button></div>
+                  <div style={{ width:'70px'}}><button style={{ backgroundColor:'red'}}><FontAwesome.FaTrash size={25} /></button></div>
                 </div>
 
               </article>
@@ -62,7 +61,8 @@ const PostsList = function (props) {
 };
 
 PostsList.propTypes = {
-  posts: PropTypes.array.isRequired
+  posts: PropTypes.array.isRequired,
+  vote: PropTypes.func.isRequired
 }
 
 export default PostsList

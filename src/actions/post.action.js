@@ -5,6 +5,7 @@ export const getPosts = () => {
   return (dispatch) => {
     PostService.getPosts().then(
       response => {
+        console.log(JSON.stringify(response.data));
         dispatch({
           type: postConstants.GET_POSTS,
           payload: response.data
@@ -81,6 +82,26 @@ export const getCategories = () => {
           type: postConstants.GET_CATEGORIES,
           payload: response.data.categories
         })
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  };
+};
+
+export const voteOnPost = (id, upVote) => {
+  return (dispatch, getState) => {
+    PostService.votePost(id,upVote).then(
+      response => {
+        const posts = getState().post.posts.slice(0);
+        const post = posts.find(item => item.id === id);
+        if(post){ post.voteScore = upVote ? post.voteScore+1 : post.voteScore-1; }
+        dispatch({
+          type: postConstants.VOTE_POST,
+          payload: posts
+        })
+        alert('Your comment has been edited');
       },
       error => {
         console.log(error);

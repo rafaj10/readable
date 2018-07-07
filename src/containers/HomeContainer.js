@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import * as PostActions from '../actions/post.action';
@@ -20,6 +19,10 @@ class HomeContainer extends Component {
     this.query();
   }
 
+  vote(id,upVote){
+    this.props.voteOnPost(id,upVote);
+  }
+
   query(){
     if(this.props.path){
       console.log("Has category = " + this.props.path);
@@ -38,7 +41,10 @@ class HomeContainer extends Component {
 
           <HeaderLogo />
 
-          <PostsList posts={this.props.posts} orderBy={'upVoting'}/>
+          <PostsList
+            posts={this.props.posts}
+            vote={this.vote.bind(this)}
+            orderBy={'upVoting'}/>
 
           <Sidebar categories={this.props.categories}/>
 

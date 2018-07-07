@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const HeaderLogo = function (props) {
   return (
-    <div class="header-content twelve columns">
+    <div className="header-content twelve columns">
 
       <h1 id="logo-text"><Link
         to={`/`}>Readable</Link></h1>

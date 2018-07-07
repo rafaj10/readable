@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
 import * as FontAwesome from 'react-icons/lib/fa'
@@ -13,6 +12,13 @@ import CommentsForm from "../components/CommentsForm";
 const moment = require('moment');
 
 class PostDetailContainer extends Component {
+
+  state = {
+    isEditingComment: false,
+    commentId: '',
+    commentAuthor: '',
+    commentBody: ''
+  }
 
   componentDidUpdate(prevProps) {
     if (this.props.path !== prevProps.path) {
@@ -40,8 +46,57 @@ class PostDetailContainer extends Component {
   }
 
   postComment(body,author){
-    alert('Aqui '+author);
+    this.props.newComment(this.state.commentBody, this.state.commentAuthor, this.props.postId, success => {
+      if (success) {
+        this.setState({
+          isEditingComment: false,
+          commentId: '',
+          commentAuthor: '',
+          commentBody: ''
+        });
+        alert("Thanks for this comment!");
+      } else {
+        alert("Oops some went wrong please try again");
+      }
+    });
   }
+
+  deleteComment(id){
+    this.props.deleteComment(id);
+  }
+
+  voteComment(id,upVote){
+    this.props.voteOnComment(id,upVote);
+  }
+
+  editComment(id,author,body){
+    this.setState({
+      isEditingComment: true,
+      commentId: id,
+      commentAuthor: author,
+      commentBody: body
+    });
+  }
+
+  postEditComment(){
+    this.props.editComment(this.state.commentId,this.state.commentBody);
+    this.doneEdit();
+  }
+
+  doneEdit(){
+    this.setState({
+      isEditingComment: false,
+      commentId: '',
+      commentAuthor: '',
+      commentBody: ''
+    });
+  }
+
+  handleCommentChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
 
   render() {
     return (
@@ -88,9 +143,24 @@ class PostDetailContainer extends Component {
 
                 <h3>{this.props.selectedPost.commentCount} Comment(s)</h3>
 
-                <CommentsList comments={this.props.comments} />
+                <CommentsList
+                  comments={this.props.comments}
+                  voteComment={this.voteComment.bind(this)}
+                  editComment={this.editComment.bind(this)}
+                  deleteComment={this.deleteComment.bind(this)}
+                />
 
-                <CommentsForm postComment={this.postComment.bind(this)}/>
+                <CommentsForm
+                  editMode={this.state.isEditingComment}
+                  commentId={this.state.commentId}
+                  commentAuthor={this.state.commentAuthor}
+                  commentBody={this.state.commentBody}
+                  comment={this.state.comment}
+                  postEditComment={this.postEditComment.bind(this)}
+                  postComment={this.postComment.bind(this)}
+                  handleCommentChange={this.handleCommentChange.bind(this)}
+                  cancelEdit={this.doneEdit.bind(this)}
+                />
 
               </div> 
 

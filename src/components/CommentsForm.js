@@ -3,27 +3,28 @@ import PropTypes from 'prop-types';
 
 class CommentsForm extends Component {
 
-  state = {
-    body: '',
-    author: ''
-  };
-
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
-
   submit(){
 
-    const { body, author } = this.state;
+    const { commentBody, commentAuthor } = this.props;
 
-    if(body === '' || author === ''){
+    if(commentBody === '' || commentAuthor === ''){
       alert('Atention you should fill all the blanks bellow');
       return;
     }
 
-    this.props.postComment(body, author);
+    this.props.postComment();
+  }
+
+  submitEdit(){
+
+    const { commentId, commentBody, commentAuthor } = this.props;
+
+    if(commentId === '' || commentBody === '' || commentAuthor === ''){
+      alert('Atention you should fill all the blanks bellow');
+      return;
+    }
+
+    this.props.postEditComment();
   }
 
   render() {
@@ -40,20 +41,27 @@ class CommentsForm extends Component {
               <label>Name <span
                 className="required">*</span></label>
               <input name="cName" type="text" id="cName"
-                     size="35" value={this.state.author}
-                     onChange={this.handleChange('author')}/>
+                     size="35" value={this.props.commentAuthor}
+                     onChange={!this.props.editMode ? this.props.handleCommentChange('commentAuthor') : undefined}
+                     />
             </div>
 
             <div className="message group">
               <label>Message <span
                 className="required">*</span></label>
               <textarea id="cMessage" rows="10" cols="50"
-                        value={this.state.body}
-                        onChange={this.handleChange('body')}></textarea>
+                        value={this.props.commentBody}
+                        onChange={this.props.handleCommentChange('commentBody')}
+                        ></textarea>
             </div>
 
+            {this.props.editMode && (
+              <button className="submit" onClick={() => { this.props.cancelEdit() }} style={{ backgroundColor:'red'}}>CANCEL
+              </button>
+            )}
+
             <button className="submit" onClick={() => {
-              this.submit()
+              this.props.editMode? this.submitEdit() : this.submit()
             }}>Submit
             </button>
 
@@ -66,7 +74,10 @@ class CommentsForm extends Component {
 };
 
 CommentsForm.propTypes = {
-  postComment: PropTypes.func.isRequired
+  postComment: PropTypes.func.isRequired,
+  postEditComment: PropTypes.func.isRequired,
+  editMode: PropTypes.bool.isRequired,
+  cancelEdit: PropTypes.func.isRequired
 }
 
 export default CommentsForm

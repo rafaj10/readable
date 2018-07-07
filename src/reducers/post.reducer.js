@@ -23,6 +23,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         selectedPost: action.payload
       };
+    case postConstants.VOTE_POST:
+      return {
+        ...state,
+        posts: action.payload
+      };
     default:
       return state;
   }
