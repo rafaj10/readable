@@ -141,7 +141,7 @@ class PostDetailContainer extends Component {
               
               <div id="comments">
 
-                <h3>{this.props.selectedPost.commentCount} Comment(s)</h3>
+                <h3>{this.props.comments.length} Comment(s)</h3>
 
                 <CommentsList
                   comments={this.props.comments}

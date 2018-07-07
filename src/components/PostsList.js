@@ -63,7 +63,7 @@ PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
   vote: PropTypes.func.isRequired,
   sortList: PropTypes.array.isRequired,
-  selectedSort: PropTypes.string.isRequired,
+  selectedSort: PropTypes.object.isRequired,
   handleSortChange: PropTypes.func.isRequired
 }
 

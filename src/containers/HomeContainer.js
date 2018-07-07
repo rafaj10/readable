@@ -64,7 +64,7 @@ class HomeContainer extends Component {
           <HeaderLogo />
 
           <PostsList
-            posts={this.props.posts}
+            posts={this.props.posts || []}
             vote={this.vote.bind(this)}
             sortList={this.state.sortList}
             handleSortChange={this.handleSortChange.bind(this)}

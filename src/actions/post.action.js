@@ -84,10 +84,6 @@ export const newPost = (title, body, author, category, callback) => {
   return (dispatch) => {
     PostService.newPost(guid,time,title, body, author, category).then(
       response => {
-        dispatch({
-          type: postConstants.GET_POSTS,
-          payload: response.data
-        })
         callback(true);
       },
       error => {
