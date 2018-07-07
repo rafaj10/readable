@@ -9,6 +9,14 @@ import Sidebar from "../components/Sidebar";
 
 class HomeContainer extends Component {
 
+  state = {
+      sortList: [{id: 1, title:'Most Recent'},
+        {id: 2, title:'Oldest'},
+        {id: 3, title:'Top Voted'},
+        {id: 4, title:'Less Volted'}],
+    selectedSort: {id: 1, title:'Most Recent'}
+  };
+
   componentDidUpdate(prevProps) {
     if (this.props.path !== prevProps.path) {
       this.query();
@@ -25,13 +33,27 @@ class HomeContainer extends Component {
 
   query(){
     if(this.props.path){
-      console.log("Has category = " + this.props.path);
       this.props.getPostsByCategory(this.props.path);
     }else{
       this.props.getPosts();
     }
     this.props.getCategories();
   }
+
+  handleSortChange = name => event => {
+    switch (event.target.value) {
+      case '1':
+        return this.props.orderPostsByDate(true);
+      case '2':
+        return this.props.orderPostsByDate(false);
+      case '3':
+        return this.props.orderPostsByVote(true);
+      case '4':
+        return this.props.orderPostsByVote(false);
+      default:
+        return;
+    }
+  };
 
   render() {
     return (
@@ -44,7 +66,9 @@ class HomeContainer extends Component {
           <PostsList
             posts={this.props.posts}
             vote={this.vote.bind(this)}
-            orderBy={'upVoting'}/>
+            sortList={this.state.sortList}
+            handleSortChange={this.handleSortChange.bind(this)}
+            selectedSort={this.state.selectedSort}/>
 
           <Sidebar categories={this.props.categories}/>
 

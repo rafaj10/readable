@@ -1,5 +1,4 @@
 import React from 'react'
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import * as FontAwesome from 'react-icons/lib/fa';
@@ -7,17 +6,17 @@ const moment = require('moment');
 
 const PostsList = function (props) {
 
-  const orderedPosts = _.sortBy(props.posts, ['title']);
-
   return (
     <div id="main" className="eight columns">
       <div>
-        <select>
-          <option value="recent">Most Recent</option>
-          <option value="rated">Top Rated</option>
+        <select onChange={props.handleSortChange('sort')}>
+          {props.sortList.map((item) => (
+            <option value={item.id} key={item.id}>{item.title}</option>
+          ))
+          }
         </select>
       </div>
-      {orderedPosts.map((item) => (
+      {props.posts.map((item) => (
               <article className="entry" key={item.id}>
 
                 <header className="entry-header">
@@ -62,7 +61,10 @@ const PostsList = function (props) {
 
 PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
-  vote: PropTypes.func.isRequired
+  vote: PropTypes.func.isRequired,
+  sortList: PropTypes.array.isRequired,
+  selectedSort: PropTypes.string.isRequired,
+  handleSortChange: PropTypes.func.isRequired
 }
 
 export default PostsList

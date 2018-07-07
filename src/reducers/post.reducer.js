@@ -13,6 +13,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         categories: action.payload
       };
+    case postConstants.NEW_ORDER_POSTS:
+      return {
+        ...state,
+        posts: action.payload
+      };
     case postConstants.GET_POSTS:
       return {
         ...state,

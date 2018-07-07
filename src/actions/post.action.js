@@ -1,4 +1,5 @@
 import { postConstants } from '../constants';
+import _ from 'lodash';
 import * as PostService from '../services/post.service';
 
 export const getPosts = () => {
@@ -8,7 +9,7 @@ export const getPosts = () => {
         console.log(JSON.stringify(response.data));
         dispatch({
           type: postConstants.GET_POSTS,
-          payload: response.data
+          payload: _.sortBy(response.data, 'timestamp').reverse()
         })
       },
       error => {
@@ -16,6 +17,30 @@ export const getPosts = () => {
       }
     );
   };
+};
+
+export const orderPostsByDate = (recent) => (dispatch, getState) =>  {
+  var posts = _.sortBy(getState().post.posts.slice(0), 'timestamp');
+  if(recent){ posts.reverse(); }
+
+  dispatch(
+    {
+      type: postConstants.NEW_ORDER_POSTS,
+      payload: posts
+    }
+  );
+};
+
+export const orderPostsByVote = (topVoted) => (dispatch, getState) =>  {
+  var posts = _.sortBy(getState().post.posts.slice(0), 'voteScore');
+  if(topVoted){ posts.reverse(); }
+
+  dispatch(
+    {
+      type: postConstants.NEW_ORDER_POSTS,
+      payload: posts
+    }
+  );
 };
 
 export const getPost = (postId) => {
@@ -40,7 +65,7 @@ export const getPostsByCategory = (category) => {
       response => {
         dispatch({
           type: postConstants.GET_POSTS,
-          payload: response.data
+          payload: _.sortBy(response.data, 'timestamp').reverse()
         })
       },
       error => {
