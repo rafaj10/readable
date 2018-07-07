@@ -10,11 +10,11 @@ import Sidebar from "../components/Sidebar";
 class HomeContainer extends Component {
 
   state = {
-      sortList: [{id: 1, title:'Most Recent'},
+    sortList: [{id: 1, title:'Most Recent'},
         {id: 2, title:'Oldest'},
         {id: 3, title:'Top Voted'},
         {id: 4, title:'Less Volted'}],
-    selectedSort: {id: 1, title:'Most Recent'}
+    selectedSort: '1'
   };
 
   componentDidUpdate(prevProps) {
@@ -28,7 +28,27 @@ class HomeContainer extends Component {
   }
 
   vote(id,upVote){
-    this.props.voteOnPost(id,upVote);
+    this.props.voteOnPost(id,upVote, success => {
+      if (success) {
+        this.updateLists(this.state.selectedSort);
+      } else {
+        alert("Oops some went wrong please try again");
+      }
+    });
+  }
+
+  edit(id){
+    alert('Edit');
+  }
+
+  delete(id){
+    this.props.deletePost(id, success => {
+      if (success) {
+        this.updateLists(this.state.selectedSort);
+      } else {
+        alert("Oops some went wrong please try again");
+      }
+    });
   }
 
   query(){
@@ -41,7 +61,12 @@ class HomeContainer extends Component {
   }
 
   handleSortChange = name => event => {
-    switch (event.target.value) {
+    this.setState({...this.state, selectedSort: event.target.value});
+    this.updateLists(event.target.value);
+  };
+
+  updateLists(sortId){
+    switch (sortId) {
       case '1':
         return this.props.orderPostsByDate(true);
       case '2':
@@ -53,7 +78,7 @@ class HomeContainer extends Component {
       default:
         return;
     }
-  };
+  }
 
   render() {
     return (
@@ -66,6 +91,8 @@ class HomeContainer extends Component {
           <PostsList
             posts={this.props.posts || []}
             vote={this.vote.bind(this)}
+            edit={this.edit.bind(this)}
+            delete={this.delete.bind(this)}
             sortList={this.state.sortList}
             handleSortChange={this.handleSortChange.bind(this)}
             selectedSort={this.state.selectedSort}/>

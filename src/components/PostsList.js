@@ -39,16 +39,13 @@ const PostsList = function (props) {
                   </div>
 
                 </header>
-
-                <div className="entry-content">
-                  <p>{item.body}</p>
-                </div>
+                
 
                 <div style={{ display: 'flex', justifyContent: 'flex-end', alignContent:'flex-end' }}>
                   <div style={{ width:'70px'}}><button onClick={() => props.vote(item.id,true)}><FontAwesome.FaThumbsUp size={25} /></button></div>
                   <div style={{ width:'70px'}}><button onClick={() => props.vote(item.id,false)}><FontAwesome.FaThumbsDown size={25} /></button></div>
-                  <div style={{ width:'70px'}}><button><FontAwesome.FaEdit size={25} /></button></div>
-                  <div style={{ width:'70px'}}><button style={{ backgroundColor:'red'}}><FontAwesome.FaTrash size={25} /></button></div>
+                  <div style={{ width:'70px'}}><button onClick={() => props.edit(item.id)}><FontAwesome.FaEdit size={25} /></button></div>
+                  <div style={{ width:'70px'}}><button onClick={() => props.delete(item.id)} style={{ backgroundColor:'red'}}><FontAwesome.FaTrash size={25} /></button></div>
                 </div>
 
               </article>
@@ -62,9 +59,11 @@ const PostsList = function (props) {
 PostsList.propTypes = {
   posts: PropTypes.array.isRequired,
   vote: PropTypes.func.isRequired,
+  edit: PropTypes.func.isRequired,
+  delete: PropTypes.func.isRequired,
   sortList: PropTypes.array.isRequired,
-  selectedSort: PropTypes.object.isRequired,
-  handleSortChange: PropTypes.func.isRequired
+  handleSortChange: PropTypes.func.isRequired,
+  selectedSort: PropTypes.string
 }
 
 export default PostsList

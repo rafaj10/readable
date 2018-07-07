@@ -33,16 +33,21 @@ class PostDetailContainer extends Component {
   query(){
     if(this.props.postId){
       console.log("Has PostIt = " + this.props.postId);
-      this.props.getPost(this.props.postId);
-      this.props.getComments(this.props.postId);
+      this.props.getPost(this.props.postId, success => {
+        if (success) {
+          this.props.getComments(this.props.postId);
+          this.props.getCategories();
+        } else {
+          this.notFound();
+        }
+      });
     }else{
       this.notFound();
     }
-    this.props.getCategories();
   }
 
   notFound(){
-    alert('oops not found');
+    this.props.history.push('/');
   }
 
   postComment(body,author){

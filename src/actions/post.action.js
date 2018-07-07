@@ -43,17 +43,21 @@ export const orderPostsByVote = (topVoted) => (dispatch, getState) =>  {
   );
 };
 
-export const getPost = (postId) => {
+export const getPost = (postId, callback) => {
   return (dispatch) => {
     PostService.getPost(postId).then(
       response => {
-        dispatch({
-          type: postConstants.GET_POST,
-          payload: response.data
-        })
+        if(response.data.deleted === false){
+          dispatch({
+            type: postConstants.GET_POST,
+            payload: response.data
+          })
+        }else{
+          callback(false);
+        }
       },
       error => {
-        console.log(error);
+        callback(false);
       }
     );
   };
@@ -111,7 +115,7 @@ export const getCategories = () => {
   };
 };
 
-export const voteOnPost = (id, upVote) => {
+export const voteOnPost = (id, upVote, callback) => {
   return (dispatch, getState) => {
     PostService.votePost(id,upVote).then(
       response => {
@@ -122,10 +126,36 @@ export const voteOnPost = (id, upVote) => {
           type: postConstants.VOTE_POST,
           payload: posts
         })
+        callback(true);
         alert('Your comment has been edited');
       },
       error => {
+        callback(false);
         console.log(error);
+      }
+    );
+  };
+};
+
+export const deletePost = (id, callback) => {
+  return (dispatch, getState) => {
+    PostService.deletePost(id).then(
+      response => {
+        const posts = getState().post.posts.slice(0);;
+        const post = posts.find(item => item.id === id);
+        const currentItemIndex = posts.indexOf(post);
+        posts.splice(currentItemIndex,1);
+
+        dispatch({
+          type: postConstants.UPDATE_POSTS_LIST,
+          payload: posts
+        })
+        callback(true);
+        alert('Your comment has been deleted');
+      },
+      error => {
+        console.log(error);
+        callback(false);
       }
     );
   };

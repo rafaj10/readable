@@ -23,6 +23,11 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         posts: action.payload
       };
+    case postConstants.UPDATE_POSTS_LIST:
+      return {
+        ...state,
+        posts: action.payload
+      };
     case postConstants.GET_POST:
       return {
         ...state,
