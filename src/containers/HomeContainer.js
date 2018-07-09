@@ -97,7 +97,9 @@ class HomeContainer extends Component {
             handleSortChange={this.handleSortChange.bind(this)}
             selectedSort={this.state.selectedSort}/>
 
-          <Sidebar categories={this.props.categories}/>
+          <Sidebar
+            currentCategory={this.props.path || 'all'}
+            categories={this.props.categories}/>
 
         </div>
 

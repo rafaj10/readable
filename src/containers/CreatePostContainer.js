@@ -82,7 +82,7 @@ class CreatePostContainer extends Component {
                   <label>Category <span className="required">*</span></label>
                   <select onChange={this.handleChange('category')}>
                     {this.props.categories.map((item) => (
-                    <option value={item.name} key={item.path}>{item.name}</option>
+                    <option value={item.name} key={item.path} selected={item.name === this.props.path}>{item.name}</option>
                     ))
                     }
                   </select>
@@ -102,9 +102,10 @@ class CreatePostContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    categories: state.post.categories
+    categories: state.post.categories,
+    path: ownProps.match.params.category
   };
 }
 

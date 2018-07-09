@@ -9,7 +9,7 @@ const Sidebar = function (props) {
 
       <div style={{ paddingBottom:'20px'}}>
         <Link
-          to='/all/post/new'><FontAwesome.FaPlus size={22} /> add new post</Link>
+          to={`/${props.currentCategory}/post/new`}><FontAwesome.FaPlus size={22} /> add new post</Link>
       </div>
 
       <div className="widget widget_categories group">
