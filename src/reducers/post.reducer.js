@@ -38,6 +38,17 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         posts: action.payload
       };
+    case postConstants.VOTE_POST_DETAIL:
+      return {
+        ...state,
+        selectedPost: action.payload
+      };
+    case postConstants.CLEAR_SELECTED_POST:
+      console.log("------------ yep");
+      return {
+        ...state,
+        selectedPost: undefined
+      };
     default:
       return state;
   }

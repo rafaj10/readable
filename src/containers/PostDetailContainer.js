@@ -9,6 +9,7 @@ import HeaderLogo from "../components/HeaderLogo";
 import Sidebar from "../components/Sidebar";
 import CommentsList from "../components/CommentsList";
 import CommentsForm from "../components/CommentsForm";
+import PostReactions from '../components/PostReactions';
 const moment = require('moment');
 
 class PostDetailContainer extends Component {
@@ -21,6 +22,7 @@ class PostDetailContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log('<<<<<<<<<<<<< CHANGE SOMETHING >>>>>>>>>');
     if (this.props.path !== prevProps.path) {
       this.query();
     }
@@ -28,6 +30,12 @@ class PostDetailContainer extends Component {
 
   componentDidMount() {
     this.query();
+  }
+
+
+  componentWillUnmount() {
+    console.log("------------ CLEAR POST SELECTED");
+    this.props.clearSelectedPost();
   }
 
   query(){
@@ -141,6 +149,8 @@ class PostDetailContainer extends Component {
                 <div className="entry-content">
                   {this.props.selectedPost.body}
                 </div>
+
+                <PostReactions postId={this.props.selectedPost.id} postCategory={this.props.selectedPost.category}/>
 
               </article>
               

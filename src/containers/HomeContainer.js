@@ -27,30 +27,6 @@ class HomeContainer extends Component {
     this.query();
   }
 
-  vote(id,upVote){
-    this.props.voteOnPost(id,upVote, success => {
-      if (success) {
-        this.updateLists(this.state.selectedSort);
-      } else {
-        alert("Oops some went wrong please try again");
-      }
-    });
-  }
-
-  edit(id,category){
-    this.props.history.push(`/${category}/${id}/edit`);
-  }
-
-  delete(id){
-    this.props.deletePost(id, success => {
-      if (success) {
-        this.updateLists(this.state.selectedSort);
-      } else {
-        alert("Oops some went wrong please try again");
-      }
-    });
-  }
-
   query(){
     if(this.props.path){
       this.props.getPostsByCategory(this.props.path);
@@ -64,6 +40,10 @@ class HomeContainer extends Component {
     this.setState({...this.state, selectedSort: event.target.value});
     this.updateLists(event.target.value);
   };
+
+  handleUpdate(){
+    this.updateLists(this.state.selectedSort);
+  }
 
   updateLists(sortId){
     switch (sortId) {
@@ -90,12 +70,10 @@ class HomeContainer extends Component {
 
           <PostsList
             posts={this.props.posts || []}
-            vote={this.vote.bind(this)}
-            edit={this.edit.bind(this)}
-            delete={this.delete.bind(this)}
             sortList={this.state.sortList}
             handleSortChange={this.handleSortChange.bind(this)}
-            selectedSort={this.state.selectedSort}/>
+            selectedSort={this.state.selectedSort}
+            handleUpdate={this.handleUpdate.bind(this)}/>
 
           <Sidebar
             currentCategory={this.props.path || 'all'}

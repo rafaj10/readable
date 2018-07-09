@@ -31,6 +31,15 @@ export const orderPostsByDate = (recent) => (dispatch, getState) =>  {
   );
 };
 
+export const clearSelectedPost = () => (dispatch, getState) =>  {
+  dispatch(
+    {
+      type: postConstants.CLEAR_SELECTED_POST,
+      payload: undefined
+    }
+  );
+};
+
 export const orderPostsByVote = (topVoted) => (dispatch, getState) =>  {
   var posts = _.sortBy(getState().post.posts.slice(0), 'voteScore');
   if(topVoted){ posts.reverse(); }
@@ -120,13 +129,22 @@ export const voteOnPost = (id, upVote, callback) => {
   return (dispatch, getState) => {
     PostService.votePost(id,upVote).then(
       response => {
-        const posts = getState().post.posts.slice(0);
-        const post = posts.find(item => item.id === id);
-        if(post){ post.voteScore = upVote ? post.voteScore+1 : post.voteScore-1; }
-        dispatch({
-          type: postConstants.VOTE_POST,
-          payload: posts
-        })
+        const selectedPost = Object.assign({}, getState().post.selectedPost);
+        if(getState().post.selectedPost === undefined){
+          const posts = getState().post.posts.slice(0);
+          const post = posts.find(item => item.id === id);
+          if(post){ post.voteScore = upVote ? post.voteScore+1 : post.voteScore-1; }
+          dispatch({
+            type: postConstants.VOTE_POST,
+            payload: posts
+          })
+        }else{
+          selectedPost.voteScore = upVote ? selectedPost.voteScore+1 : selectedPost.voteScore-1;
+          dispatch({
+            type: postConstants.VOTE_POST_DETAIL,
+            payload: selectedPost
+          })
+        }
         callback(true);
         alert('Thanks for voting');
       },
