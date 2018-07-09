@@ -52,6 +52,7 @@ export const getPost = (postId, callback) => {
             type: postConstants.GET_POST,
             payload: response.data
           })
+          callback(true);
         }else{
           callback(false);
         }
@@ -127,7 +128,7 @@ export const voteOnPost = (id, upVote, callback) => {
           payload: posts
         })
         callback(true);
-        alert('Your comment has been edited');
+        alert('Thanks for voting');
       },
       error => {
         callback(false);
@@ -136,6 +137,32 @@ export const voteOnPost = (id, upVote, callback) => {
     );
   };
 };
+
+export const editPost = (id, title, body, callback) => {
+  return (dispatch, getState) => {
+    PostService.editPost(id,title,body).then(
+      response => {
+        const posts = getState().post.posts.slice(0);
+        const post = posts.find(item => item.id === id);
+        if(post){
+          post.title = title;
+          post.body = body;
+        }
+        dispatch({
+          type: postConstants.UPDATE_POSTS_LIST,
+          payload: posts
+        })
+        callback(true);
+        alert('Your post has been successfully edited');
+      },
+      error => {
+        callback(false);
+        console.log(error);
+      }
+    );
+  };
+};
+
 
 export const deletePost = (id, callback) => {
   return (dispatch, getState) => {

@@ -37,8 +37,8 @@ class HomeContainer extends Component {
     });
   }
 
-  edit(id){
-    alert('Edit');
+  edit(id,category){
+    this.props.history.push(`/${category}/${id}/edit`);
   }
 
   delete(id){

@@ -6,17 +6,44 @@ import * as PostActions from '../actions/post.action';
 import HeaderLogo from "../components/HeaderLogo";
 import '../App.css';
 
-class CreatePostContainer extends Component {
+class EditPostContainer extends Component {
 
   state = {
     title: '',
-    body: '',
-    author: '',
-    category: ''
+    body: ''
   };
 
+  componentDidUpdate(prevProps) {
+    if (this.props.path !== prevProps.path) {
+      this.query();
+    }
+  }
+
   componentDidMount() {
-    this.props.getCategories();
+    this.query();
+  }
+
+  query(){
+    if(this.props.postId){
+      this.props.getPost(this.props.postId, success => {
+        if (success) {
+          this.setState({
+            title: this.props.selectedPost.title,
+            body: this.props.selectedPost.body,
+            author: this.props.selectedPost.author,
+            category: this.props.selectedPost.category
+          });
+        } else {
+          this.notFound();
+        }
+      });
+    }else{
+      this.notFound();
+    }
+  }
+
+  notFound(){
+    this.props.history.push('/');
   }
 
   handleChange = name => event => {
@@ -26,22 +53,23 @@ class CreatePostContainer extends Component {
   };
 
   submit(){
+
     var category = this.state.category;
 
     if(category === ''){
       category = this.props.categories[0].name;
     }
 
-    const { title, body, author } = this.state;
+    const { title, body } = this.state;
 
-    if( title === '' || body === '' || author === ''){
+    if( title === '' || body === ''){
       alert('Atention you should fill all the blanks bellow');
       return;
     }
 
-    this.props.newPost(title, body, author, category, success => {
+    this.props.editPost(this.props.postId, title, body, success => {
       if (success) {
-        this.props.history.push(`/${category}`);
+        this.props.history.push(`/${category}/${this.props.postId}`)
       } else {
         alert("Oops some went wrong please try again");
       }
@@ -58,7 +86,7 @@ class CreatePostContainer extends Component {
 
           <div className="respond">
 
-            <h3>New Post:</h3>
+            <h3>Edit Post:</h3>
 
             <div name="contactForm" id="contactForm">
               <fieldset>
@@ -73,22 +101,7 @@ class CreatePostContainer extends Component {
                   <textarea id="cBody" rows="10" cols="50" value={this.state.body} onChange={this.handleChange('body')} ></textarea>
                 </div>
 
-                <div className="group">
-                  <label>Author <span className="required">*</span></label>
-                  <input type="text" id="cAuthor" size="35" value={this.state.author} onChange={this.handleChange('author')} />
-                </div>
-
-                <div className="group">
-                  <label>Category <span className="required">*</span></label>
-                  <select onChange={this.handleChange('category')}>
-                    {this.props.categories.map((item) => (
-                    <option value={item.name} key={item.path}>{item.name}</option>
-                    ))
-                    }
-                  </select>
-                </div>
-
-                <button className="submit" onClick={() => { this.submit() }}>Submit</button>
+                <button className="submit" onClick={() => { this.submit() }}>Confirm</button>
 
               </fieldset>
             </div>
@@ -102,9 +115,12 @@ class CreatePostContainer extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    categories: state.post.categories
+    categories: state.post.categories,
+    selectedPost: state.post.selectedPost,
+    categoryPath: ownProps.match.params.category,
+    postId: ownProps.match.params.post_id
   };
 }
 
@@ -112,4 +128,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(PostActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CreatePostContainer));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EditPostContainer));

@@ -4,6 +4,7 @@ import '../App.css';
 import HomeContainer from './HomeContainer';
 import CreatePostContainer from './CreatePostContainer';
 import PostDetailContainer from './PostDetailContainer';
+import EditPostContainer from './EditPostContainer';
 import NothingHereContainer from './NothingHereContainer';
 
 class App extends Component {
@@ -19,6 +20,11 @@ class App extends Component {
           exact
           path="/:category/:post_id"
           component={PostDetailContainer}
+        />
+        <Route
+          exact
+          path="/:category/:post_id/edit"
+          component={EditPostContainer}
         />
         <Route
           exact
