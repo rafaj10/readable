@@ -33,6 +33,11 @@ class App extends Component {
         />
         <Route
           exact
+          path="/:category/:post_id/oops"
+          component={NothingHereContainer}
+        />
+        <Route
+          exact
           path="*"
           component={NothingHereContainer}
         />

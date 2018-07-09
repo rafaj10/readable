@@ -22,7 +22,6 @@ class PostDetailContainer extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log('<<<<<<<<<<<<< CHANGE SOMETHING >>>>>>>>>');
     if (this.props.path !== prevProps.path) {
       this.query();
     }
@@ -34,13 +33,11 @@ class PostDetailContainer extends Component {
 
 
   componentWillUnmount() {
-    console.log("------------ CLEAR POST SELECTED");
     this.props.clearSelectedPost();
   }
 
   query(){
     if(this.props.postId){
-      console.log("Has PostIt = " + this.props.postId);
       this.props.getPost(this.props.postId, success => {
         if (success) {
           this.props.getComments(this.props.postId);
@@ -55,7 +52,7 @@ class PostDetailContainer extends Component {
   }
 
   notFound(){
-    this.props.history.push('/');
+    this.props.history.push(`/${this.props.path}/${this.props.postId}/oops`);
   }
 
   postComment(body,author){

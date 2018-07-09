@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {connect} from 'react-redux';
@@ -49,6 +50,13 @@ class PostReactions extends Component {
   }
 
 };
+
+PostReactions.propTypes = {
+  postId: PropTypes.string.isRequired,
+  postCategory: PropTypes.string.isRequired,
+  handleUpdate: PropTypes.func,
+  list: PropTypes.bool
+}
 
 function mapStateToProps() {
   return {};

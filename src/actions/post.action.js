@@ -6,9 +6,8 @@ export const getPosts = () => {
   return (dispatch) => {
     PostService.getPosts().then(
       response => {
-        console.log(JSON.stringify(response.data));
         dispatch({
-          type: postConstants.GET_POSTS,
+          type: postConstants.UPDATE_POSTS_LIST,
           payload: _.sortBy(response.data, 'timestamp').reverse()
         })
       },
@@ -25,7 +24,7 @@ export const orderPostsByDate = (recent) => (dispatch, getState) =>  {
 
   dispatch(
     {
-      type: postConstants.NEW_ORDER_POSTS,
+      type: postConstants.UPDATE_POSTS_LIST,
       payload: posts
     }
   );
@@ -34,7 +33,7 @@ export const orderPostsByDate = (recent) => (dispatch, getState) =>  {
 export const clearSelectedPost = () => (dispatch, getState) =>  {
   dispatch(
     {
-      type: postConstants.CLEAR_SELECTED_POST,
+      type: postConstants.UPDATE_POST,
       payload: undefined
     }
   );
@@ -46,7 +45,7 @@ export const orderPostsByVote = (topVoted) => (dispatch, getState) =>  {
 
   dispatch(
     {
-      type: postConstants.NEW_ORDER_POSTS,
+      type: postConstants.UPDATE_POSTS_LIST,
       payload: posts
     }
   );
@@ -58,7 +57,7 @@ export const getPost = (postId, callback) => {
       response => {
         if(response.data.deleted === false){
           dispatch({
-            type: postConstants.GET_POST,
+            type: postConstants.UPDATE_POST,
             payload: response.data
           })
           callback(true);
@@ -78,7 +77,7 @@ export const getPostsByCategory = (category) => {
     PostService.getPostsByCategory(category).then(
       response => {
         dispatch({
-          type: postConstants.GET_POSTS,
+          type: postConstants.UPDATE_POSTS_LIST,
           payload: _.sortBy(response.data, 'timestamp').reverse()
         })
       },
@@ -112,7 +111,6 @@ export const getCategories = () => {
   return (dispatch) => {
     PostService.getCategories().then(
       response => {
-        console.log(JSON.stringify(response.data.categories));
         dispatch({
           type: postConstants.GET_CATEGORIES,
           payload: response.data.categories
@@ -135,13 +133,13 @@ export const voteOnPost = (id, upVote, callback) => {
           const post = posts.find(item => item.id === id);
           if(post){ post.voteScore = upVote ? post.voteScore+1 : post.voteScore-1; }
           dispatch({
-            type: postConstants.VOTE_POST,
+            type: postConstants.UPDATE_POSTS_LIST,
             payload: posts
           })
         }else{
           selectedPost.voteScore = upVote ? selectedPost.voteScore+1 : selectedPost.voteScore-1;
           dispatch({
-            type: postConstants.VOTE_POST_DETAIL,
+            type: postConstants.UPDATE_POST,
             payload: selectedPost
           })
         }
